@@ -1,1 +1,224 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d19">
+<title>PROJECT N-9 // Classified</title>
+<style>
+:root {
+  --site-primary: #142b4b;
+  --site-on-primary: #f4f8ff;
+  --site-secondary: #d8a84e;
+  --site-on-secondary: #17120a;
+  --site-background: #080d19;
+  --site-on-background: #edf3ff;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: var(--site-font-body); }
+#app { min-height: 100vh; width: 100%; border-radius: 0; overflow: hidden; position: relative; background: var(--site-background); color: var(--site-on-background); }
+.ambient { position: absolute; inset: 0; pointer-events: none; opacity: var(--site-decoration-opacity); background: radial-gradient(ellipse at 15% 15%, rgba(36,90,145,.24), transparent 42%), radial-gradient(ellipse at 85% 80%, rgba(199,151,65,.12), transparent 38%); }
+.grid { position: absolute; inset: 0; pointer-events: none; opacity: calc(var(--site-decoration-opacity) * .17); background-image: linear-gradient(rgba(117,165,214,.16) 1px, transparent 1px), linear-gradient(90deg, rgba(117,165,214,.16) 1px, transparent 1px); background-size: 42px 42px; mask-image: linear-gradient(to bottom, black, transparent 88%); }
+main { position: relative; z-index: 1; width: min(900px, 100%); margin: auto; padding: 26px clamp(18px, 5vw, 54px) 52px; min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(151,183,218,.2); padding-bottom: 16px; }
+.brand { display: flex; align-items: center; gap: 11px; font: 700 12px var(--site-font-heading); letter-spacing: .16em; }
+.seal { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--site-secondary); color: var(--site-secondary); border-radius: 50%; font-size: 16px; }
+.status { color: #9fb6d2; font: 10px var(--site-font-heading); letter-spacing: .14em; }
+main section { width: 100%; margin: auto; padding: 54px 0 30px; }
+.eyebrow { color: var(--site-secondary); font: 11px var(--site-font-heading); letter-spacing: .22em; text-transform: uppercase; }
+h1,h2 { font-family: var(--site-font-heading); font-weight: 800; letter-spacing: -.055em; line-height: 1.04; }
+h1 { font-size: clamp(42px, 9vw, 82px); margin: 18px 0; }
+h2 { font-size: clamp(30px, 6vw, 52px); margin: 14px 0; }
+.lead { color: #b6c4d7; font-size: clamp(15px, 2.2vw, 18px); line-height: 1.7; max-width: 620px; }
+.panel { background: color-mix(in srgb, var(--site-primary) 58%, #080d19); border: 1px solid rgba(151,183,218,.24); border-radius: calc(18px * var(--site-radius-scale)); padding: calc(24px * var(--site-spacing-scale)); box-shadow: 0 22px 70px rgba(0,0,0,.22); }
+.meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 28px 0; }
+.meta div { border-left: 2px solid var(--site-secondary); padding: 7px 10px; background: rgba(255,255,255,.035); }
+.meta small { display:block; color:#8fa8c5; font: 9px var(--site-font-heading); letter-spacing:.12em; }
+.meta strong { display:block; margin-top:7px; font: 12px var(--site-font-heading); }
+button { border: 0; cursor: pointer; border-radius: 5px; padding: 15px 21px; background: var(--site-secondary); color: var(--site-on-secondary); font: 800 11px var(--site-font-heading); letter-spacing: .12em; transition: transform .18s, filter .18s; }
+button:hover { transform: translateY(-2px); filter: brightness(1.08); }
+button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+button.secondary { color: #dce8f7; background: rgba(255,255,255,.07); border: 1px solid rgba(151,183,218,.3); }
+.actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+.hidden { display:none !important; }
+.scanline { height: 2px; background: linear-gradient(90deg, transparent, var(--site-secondary), transparent); width: 100%; transform: translateY(0); animation: scan 2.1s linear infinite; box-shadow: 0 0 18px rgba(216,168,78,.6); }
+@keyframes scan { 0% { transform: translateY(0); opacity:.2; } 50% { opacity:1; } 100% { transform: translateY(170px); opacity:.2; } }
+.scanbox { height: 175px; overflow:hidden; position:relative; background:#070b13; border:1px solid rgba(151,183,218,.24); margin:22px 0; padding:18px; }
+.scanbox pre { white-space:pre-wrap; color:#9ed7bd; font:12px/1.9 var(--site-font-heading); margin:0; }
+.scanbox .scanline { position:absolute; top:0; left:0; }
+.progress { height:5px; background:#26364a; margin:18px 0 8px; overflow:hidden; }
+.progress span { display:block; height:100%; width:0; background:var(--site-secondary); transition:width .25s; }
+.mission-list { display:grid; gap:12px; margin:24px 0; }
+.mission { display:flex; gap:14px; align-items:flex-start; padding:16px; border:1px solid rgba(151,183,218,.2); background:rgba(255,255,255,.035); border-radius:8px; }
+.num { color:var(--site-secondary); font:13px var(--site-font-heading); }
+.mission strong { display:block; font:13px var(--site-font-heading); margin-bottom:5px; }
+.mission p { margin:0; color:#aebed2; font-size:13px; line-height:1.55; }
+.reveal { text-align:center; padding-top:35px; }
+.big-seal { margin:0 auto 24px; width:86px; height:86px; border-radius:50%; display:grid; place-items:center; border:1px solid var(--site-secondary); color:var(--site-secondary); font-size:35px; box-shadow:0 0 45px rgba(216,168,78,.18); }
+.birthday { background:linear-gradient(145deg,#142b4b,#241b32 58%,#4a3024); border:1px solid rgba(230,190,112,.55); padding:clamp(24px,5vw,48px); border-radius:14px; text-align:center; position:relative; overflow:hidden; }
+.birthday:before { content:"✦  ✧  ✦  ✧  ✦"; position:absolute; top:16px; left:0; right:0; color:rgba(255,220,150,.4); letter-spacing:1.2em; }
+.cake { font-size:64px; margin:18px 0 8px; filter:drop-shadow(0 8px 15px rgba(0,0,0,.3)); }
+.birthday h2 { color:#ffe1a0; }
+.birthday p { color:#f0dfc5; line-height:1.75; max-width:580px; margin:16px auto; }
+.signature { color:#f2c979; font:12px var(--site-font-heading); letter-spacing:.12em; margin-top:28px; }
+footer { margin-top:auto; padding-top:24px; color:#71859f; display:flex; justify-content:space-between; gap:12px; font:9px var(--site-font-heading); letter-spacing:.1em; }
+.confetti { position:fixed; top:-15px; width:8px; height:13px; z-index:5; pointer-events:none; animation:fall 3.4s linear forwards; }
+@keyframes fall { to { transform:translateY(110vh) rotate(720deg); opacity:0; } }
+@media(max-width:560px) { .meta { grid-template-columns:1fr; } .meta div { display:flex; justify-content:space-between; align-items:center; } .meta strong { margin:0; } footer { flex-direction:column; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ambient"></div><div class="grid"></div>
+  <main>
+    <header class="topbar">
+      <div class="brand"><span class="seal">N9</span><span>FIELD OPERATIONS<br><span style="color:#91a8c3;font-weight:400">SPECIAL EVENTS DIVISION</span></span></div>
+      <div class="status">● SECURE CHANNEL / ACTIVE</div>
+    </header>
+
+    <section id="intro">
+      <div class="eyebrow">// Incoming classified transmission</div>
+      <h1>HELLO,<br>AGENT N-9.</h1>
+      <p class="lead">An unusual case has landed on your desk. Your file has been flagged for immediate review. Before proceeding, confirm that you are ready to accept this highly confidential assignment.</p>
+      <div class="meta">
+        <div><small>AGENT CODENAME</small><strong>AGENT N-9</strong></div>
+        <div><small>MISSION PRIORITY</small><strong>TOP SECRET</strong></div>
+        <div><small>CASE NUMBER</small><strong>01 / B-DAY</strong></div>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">Notice from headquarters</div>
+        <p class="lead" style="font-size:14px;margin-bottom:0">This mission contains unexpected plot twists, questionable levels of drama, and one very important surprise.</p>
+      </div>
+      <div class="actions"><button id="accept">ACCEPT THE MISSION →</button></div>
+    </section>
+
+    <section id="scan" class="hidden">
+      <div class="eyebrow">// Stage 01 — Verification protocol</div>
+      <h2>RUNNING<br>AGENT CHECK.</h2>
+      <p class="lead">Headquarters is reviewing your highly classified agent profile. Please stand by.</p>
+      <div class="scanbox"><div class="scanline"></div><pre id="scantext">INITIALISING SECURE CHANNEL...
+LOADING AGENT DOSSIER...
+</pre></div>
+      <div class="progress"><span id="bar"></span></div>
+      <div class="status" id="scanstatus">PLEASE WAIT — SIMULATED SYSTEM CHECK</div>
+      <div class="actions"><button id="continue" class="hidden">OPEN MISSION BRIEFING →</button></div>
+      <p style="font-size:11px;color:#71859f;line-height:1.6;margin-top:20px">For fun: this is a fictional animation. No location, IP address, device details, or personal information is accessed or collected.</p>
+    </section>
+
+    <section id="brief" class="hidden">
+      <div class="eyebrow">// Stage 02 — Classified mission briefing</div>
+      <h2>THE CASE OF<br>THE MISSING BIRTHDAY.</h2>
+      <p class="lead">Our investigation has uncovered three highly suspicious facts about Agent N-9.</p>
+      <div class="mission-list">
+        <div class="mission"><span class="num">01</span><div><strong>UNMATCHED CHAOS LEVELS</strong><p>Known to turn an ordinary conversation into a full investigation, complete with 😂😭 and unexpected plot twists.</p></div></div>
+        <div class="mission"><span class="num">02</span><div><strong>MUSIC-RELATED EVIDENCE</strong><p>The file contains a recurring musical clue: “Kina Chir”. Headquarters considers this evidence extremely important.</p></div></div>
+        <div class="mission"><span class="num">03</span><div><strong>ARTISTIC SIDE QUESTS</strong><p>Reports mention art, painting, and other creative activities. The agency has officially classified this as suspiciously talented behaviour.</p></div></div>
+      </div>
+      <div class="panel"><div class="eyebrow">Final instruction</div><p class="lead" style="font-size:15px;margin-bottom:0">There is only one way to close this case. Open the final classified file.</p></div>
+      <div class="actions"><button id="revealbtn">DECRYPT FINAL FILE →</button></div>
+    </section>
+
+    <section id="final" class="hidden reveal">
+      <div class="big-seal">✦</div>
+      <div class="eyebrow">// Case solved — surprise unlocked</div>
+      <div class="birthday">
+        <div class="cake">🎂</div>
+        <div class="eyebrow">A very important announcement</div>
+        <h2>HAPPY BIRTHDAY,<br>AGENT N-9!</h2>
+        <p>Plot twist: there was no criminal to catch and no mystery to solve. The entire operation was launched for one reason — to make your birthday a little more memorable.</p>
+        <p>Keep being your wonderfully chaotic, creative, music-loving self. May this year bring you happiness, good surprises, big wins, and plenty of reasons to laugh. You deserve a brilliant day!</p>
+        <div class="signature">— YOUR MYSTERIOUS HEADQUARTERS 🎁</div>
+      </div>
+      <div class="actions" style="justify-content:center"><button id="celebrate">INITIATE CELEBRATION ✨</button><button class="secondary" id="restart">REPLAY THE MISSION</button></div>
+    </section>
+    <footer><span>PROJECT N-9 // CLASSIFIED</span><span>AUTHORISED FOR ONE BIRTHDAY AGENT ONLY</span></footer>
+  </main>
+</div>
+<script>
+const screens = ['intro','scan','brief','final'];
+
+function show(id) {
+  screens.forEach(s => document.getElementById(s).classList.toggle('hidden', s !== id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.getElementById('accept').addEventListener('click', () => {
+  show('scan');
+  runScan();
+});
+
+function runScan() {
+  const lines = [
+    'INITIALISING SECURE CHANNEL... OK',
+    'LOADING AGENT DOSSIER... OK',
+    'CHECKING CHAOS QUOTIENT... HIGH 😂',
+    'VERIFYING MUSIC FILE... KINA CHIR FOUND',
+    'REVIEWING CREATIVE CREDENTIALS... CLEARED',
+    'SCANNING FOR BIRTHDAY ENERGY... 100%',
+    'RESULT: AGENT N-9 VERIFIED. 🎉'
+  ];
+
+  const out = document.getElementById('scantext');
+  const bar = document.getElementById('bar');
+  const status = document.getElementById('scanstatus');
+  const btn = document.getElementById('continue');
+
+  out.textContent = '';
+  bar.style.width = '0%';
+  btn.classList.add('hidden');
+
+  let i = 0;
+
+  const tick = () => {
+    if (i < lines.length) {
+      out.textContent += (i ? '\n' : '') + lines[i];
+      bar.style.width = Math.round(((i+1)/lines.length)*100) + '%';
+      status.textContent = 'SIMULATED CHECK ' + (i+1) + ' / ' + lines.length;
+      i++;
+      setTimeout(tick, 520);
+    } else {
+      status.textContent = 'AGENT VERIFIED — NO PERSONAL DATA COLLECTED';
+      btn.classList.remove('hidden');
+    }
+  };
+
+  setTimeout(tick, 400);
+}
+
+document.getElementById('continue').addEventListener('click', () => show('brief'));
+
+document.getElementById('revealbtn').addEventListener('click', () => show('final'));
+
+function confetti() {
+  const symbols = ['✦','✧','•','✺'];
+
+  for (let i=0; i<65; i++) {
+    const el = document.createElement('span');
+    el.className='confetti';
+    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.left = Math.random()*100+'vw';
+    el.style.color = ['#e8bd69','#9cc8e8','#f3e6c9','#d99ab8'][i%4];
+    el.style.fontSize = (10+Math.random()*15)+'px';
+    el.style.animationDelay = (Math.random()*1.2)+'s';
+
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4800);
+  }
+}
+
+document.getElementById('celebrate').addEventListener('click', confetti);
+
+document.getElementById('restart').addEventListener('click', () => show('intro'));
+</script>
+</body>
+</html>
